@@ -8,8 +8,6 @@ First, you'll need docker and docker-compose:
 
 ## How to install a new Symfony web application
 
-1. Clone this repo: ```git clone git@github.com:paulopmt1/docker-symfony-environment.git```
-2. Enter on the folder: ```cd docker-symfony-environment```
-3. Start the environment: ```sudo docker-compose up -d```
-4. Login on the container with ```sudo docker exec -it dev_apache_php74 /bin/bash```
-5. Run: ```composer create-project symfony/website-skeleton:"^4.4" /var/www/html/``` (4.4 is the latest LTS symfony version)
+1. Clone this repo: ```git clone https://github.com/douglasscaini/auryn-challenge-backend.git```
+2. Enter on the folder: ```cd auryn-challenge-backend```
+5. Run: ```sudo /etc/init.d/docker start```
