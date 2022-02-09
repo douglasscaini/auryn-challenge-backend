@@ -1,0 +1,73 @@
+[mysqld]
+sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
+group_concat_max_len=15360
+max_connections=300
+
+#
+# * Basic Settings
+#
+user            = mysql
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+port            = 3306
+basedir         = /usr
+tmpdir          = /tmp
+lc-messages-dir = /usr/share/mysql
+skip-external-locking
+
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+bind-address            = 0.0.0.0
+
+#
+# * Fine Tuning
+#
+key_buffer_size         = 32M
+max_allowed_packet      = 16M
+thread_stack            = 192K
+thread_cache_size       = 8
+innodb_file_per_table   = 1
+innodb_buffer_pool_size = 1000M
+innodb_log_buffer_size  = 8M
+innodb_read_io_threads  = 4
+innodb_write_io_threads = 4
+
+# This replaces the startup script and checks MyISAM tables if needed
+# the first time they are touched
+myisam-recover         = BACKUP
+
+#
+# * Query Cache Configuration
+#
+query_cache_limit       = 1M
+query_cache_size        = 16M
+
+#
+# * Logging and Replication
+#
+log_error = /var/lib/mysql/error.log
+
+# Ativo somente para replicação
+#binlog_format           = mixed
+#server-id               = 100 # deve ser único
+#replicate-do-db         = photobook
+#log_bin                 = /databaseLogs/mysql-bin.log
+#expire_logs_days        = 7
+#max_binlog_size         = 100M
+
+#
+# * Character sets
+#
+character-set-server  = latin1
+collation-server      = latin1_general_ci
+
+#
+# Replication configs
+#
+binlog_format           = mixed
+server-id               = 100 # deve ser único alterar antes de fazer build (refactor aqui para ser configurado por variável no futuro)
+replicate-do-db         = photobook
+expire_logs_days        = 7
+max_binlog_size         = 100M
+slave-skip-errors       = 1062 # Por padrao slave ignora erros de registros duplicados (que ocorre pois ao fazer dump de producao nao paramos o banco)

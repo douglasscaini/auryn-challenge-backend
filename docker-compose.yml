@@ -1,0 +1,50 @@
+version: '3'
+services:
+  dev_apache_php74:
+    container_name: dev_apache_php74
+    restart: always
+    build: .
+    environment:
+      TZ: America/Sao_Paulo
+    ports: 
+      - 9090:80
+    volumes:
+      - ./symfony_app:/var/www/html
+    depends_on:
+      - dev_database
+
+  dev_phpmyadmin:
+    container_name: dev_phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    mem_limit: 128m
+    memswap_limit: 0
+    mem_swappiness: 0
+    restart: always
+    depends_on:
+      - dev_database
+    ports:
+      - 8282:80
+    environment:
+      - PMA_HOST=dev_database
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+
+  dev_database:
+     container_name: dev_database
+     image: mariadb:10.1.30
+     restart: always
+     volumes:
+       - ./mysql-data-dev_database:/var/lib/mysql
+     ports:
+       - 3406:3306
+     mem_limit: 8192m
+     memswap_limit: 0
+     mem_swappiness: 0
+     restart: always
+     environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=auryn
+      - MYSQL_PASSWORD=auryn
+      - TZ=America/Sao_Paulo
+     volumes:
+       - ./mariaDb/conf.d:/etc/mysql/conf.d
